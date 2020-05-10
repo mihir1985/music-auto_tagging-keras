@@ -101,14 +101,14 @@ def MusicTaggerCRNN(weights='msd', input_tensor=None,
     x = Dropout(0.1, name='dropout2')(x)
 
     # Conv block 3
-    x = Convolution2D(128, 3, 3, border_mode='same', name='conv3')(x)
+    x = Convolution2D(192, 3, 3, border_mode='same', name='conv3')(x)
     x = BatchNormalization(axis=channel_axis, mode=0, name='bn3')(x)
     x = ELU()(x)
     x = MaxPooling2D(pool_size=(4, 4), strides=(4, 4), name='pool3')(x)
     x = Dropout(0.1, name='dropout3')(x)
 
     # Conv block 4
-    x = Convolution2D(128, 3, 3, border_mode='same', name='conv4')(x)
+    x = Convolution2D(256, 3, 3, border_mode='same', name='conv4')(x)
     x = BatchNormalization(axis=channel_axis, mode=0, name='bn4')(x)
     x = ELU()(x)
     x = MaxPooling2D(pool_size=(4, 4), strides=(4, 4), name='pool4')(x)
@@ -117,7 +117,7 @@ def MusicTaggerCRNN(weights='msd', input_tensor=None,
     # reshaping
     if K.image_dim_ordering() == 'th':
         x = Permute((3, 1, 2))(x)
-    x = Reshape((15, 128))(x)
+    x = Reshape((15, 256))(x)
 
     # GRU block 1, 2, output
     x = GRU(32, return_sequences=True, name='gru1')(x)
